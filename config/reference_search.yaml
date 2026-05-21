@@ -1,0 +1,12 @@
+# Reference discovery for output/references.xlsx (title, topic, DOI).
+# Edit queries for your report; run: python -m trg search-refs
+
+max_per_query: 5
+
+searches:
+  - query: "KV cache large language model inference"
+    topic: "KV cache"
+  - query: "PagedAttention vLLM"
+    topic: "PagedAttention"
+  - query: "H2O Heavy-Hitter Oracle attention cache"
+    topic: "KV eviction"

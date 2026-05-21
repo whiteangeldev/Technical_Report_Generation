@@ -5,21 +5,25 @@ Automate structured technical reports in **Cursor** using section-based folders,
 1. **Expert review** — configurable rules in `config/rules.yaml` (`expert_review`)
 2. **Fact alignment** — project facts in `config/project.yaml` plus rules (`fact_alignment`)
 3. **Question lists** — long, section-grouped questions for gaps you must fill manually
+4. **References (M2)** — Crossref search → Excel; Markdown papers → cited Principles / Literature Review
 
 ## Layout
 
 ```
 config/
-  project.yaml      # title, topic, ground-truth facts
-  rules.yaml        # expert + alignment rules
-sections/           # one folder per report section (edit or LLM-generate)
+  project.yaml           # title, topic, ground-truth facts
+  rules.yaml             # expert + alignment rules
+  reference_search.yaml  # Crossref queries → references.xlsx
+sections/                # one folder per report section (edit or LLM-generate)
+sources/papers/          # your converted reference .md files
   literature_review/section.md
   problem_analysis/section.md
   ...
 output/
-  report.md         # assembled report
-  questions.md      # generated questions
-  reviews/          # JSON review + alignment artifacts
+  report.md           # assembled report
+  references.xlsx     # title, topic, DOI (from search-refs)
+  questions.md        # generated questions
+  reviews/            # JSON review + alignment artifacts
 src/trg/            # Python CLI
 ```
 
@@ -39,7 +43,22 @@ GROK_API_KEY=xai-...       # from https://console.x.ai
 GROK_MODEL=grok-3-mini     # optional, e.g. grok-3, grok-2-1212
 ```
 
-Edit `config/project.yaml` for your topic and facts. Adjust rules in `config/rules.yaml`.
+Edit `config/project.yaml` for your topic and facts. Adjust rules in `config/rules.yaml` and search queries in `config/reference_search.yaml`.
+
+## References workflow (M2)
+
+```bash
+# 1) Search Crossref → Excel (Paper title | Topic | DOI)
+python -m trg search-refs
+
+# 2) You: download PDFs from DOIs, convert to Markdown → sources/papers/*.md
+
+# 3) Generate sections that quote those files (marked **[CITATION]** blocks)
+python -m trg generate -s principles
+python -m trg generate -s literature_review
+```
+
+See `sources/papers/README.md` for Markdown file format.
 
 ## Commands
 
@@ -56,6 +75,9 @@ python -m trg review --apply
 
 # Fact alignment vs config facts + cross-section rules
 python -m trg align-facts
+
+# Crossref bibliography → output/references.xlsx
+python -m trg search-refs
 
 # Long question list for the current project
 python -m trg questions --min 50

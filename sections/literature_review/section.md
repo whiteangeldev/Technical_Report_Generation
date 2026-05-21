@@ -1,6 +1,11 @@
 # Literature Review
 
-The key-value (KV) cache is a standard optimization for autoregressive inference in transformer-based LLMs. By retaining the key and value projections of past tokens, it reduces per-token attention complexity from quadratic to linear in sequence length. Early implementations in GPT and LLaMA inference pipelines stored full KV tensors, resulting in memory usage linear in batch size, context length, and model dimension.
+The key-value (KV) cache is a standard optimization for autoregressive inference in transformer-based LLMs. 
+
+> **[CITATION] Literature Review**
+> Original: "By retaining the key and value projections of past tokens, it reduces per-token attention complexity from quadratic to linear in sequence length."
+
+Early implementations in GPT and LLaMA inference pipelines stored full KV tensors, resulting in memory usage linear in batch size, context length, and model dimension.
 
 Subsequent work has addressed peak memory and latency under varying batch sizes. Memory-centric techniques include per-token quantization and eviction. 4-bit and 8-bit quantization applied selectively to lower-salience layers has been reported to yield 4–8× cache-size reduction with <0.1 perplexity increase on long-context benchmarks (e.g., Liu et al., 2023; Sheng et al., 2023). Eviction policies such as H2O (Heavy-Hitter Oracle) and StreamingLLM discard low-utility entries, achieving up to 50 % cache reduction while maintaining generation quality on extended contexts (Zhang et al., 2023; Xiao et al., 2023).
 

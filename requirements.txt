@@ -1,3 +1,4 @@
 openai>=1.40.0  # OpenAI-compatible client for xAI Grok API
+openpyxl>=3.1.0
 python-dotenv>=1.0.0
 PyYAML>=6.0.0

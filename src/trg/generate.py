@@ -3,6 +3,13 @@ from __future__ import annotations
 from trg import llm
 from trg.config import load_project, project_facts
 from trg.sections import SECTIONS, read_all_sections, read_section, write_section
+from trg.sources import (
+    CITATION_FORMAT,
+    CITED_SECTIONS,
+    format_sources_for_prompt,
+    format_sources_index,
+    list_papers,
+)
 
 SECTION_GUIDANCE: dict[str, str] = {
     "literature_review": "Survey prior work and cite representative approaches.",
@@ -33,6 +40,21 @@ def generate_section(section_id: str) -> str:
         if body:
             context_parts.append(f"### {stitle}\n{body[:2000]}")
 
+    citation_block = ""
+    if section_id in CITED_SECTIONS:
+        papers = list_papers()
+        sources_text = format_sources_for_prompt(papers)
+        citation_block = f"""
+Citation rules (required for this section):
+{CITATION_FORMAT}
+
+Available sources:
+{format_sources_index(papers)}
+
+Reference markdown to quote from:
+{sources_text or '(add .md files under sources/papers/ — see sources/papers/README.md)'}
+"""
+
     user = f"""Write the "{title}" section for this technical report.
 
 Project: {project.get('title', '')}
@@ -43,7 +65,7 @@ Section focus: {guidance}
 
 Facts to respect:
 {chr(10).join(f'- {f}' for f in facts)}
-
+{citation_block}
 Other sections for consistency (do not repeat their full content):
 {chr(10).join(context_parts) if context_parts else '(none yet)'}
 
@@ -56,9 +78,15 @@ Output markdown only. Start with # {title}. Be concrete; use placeholders like [
 only where the user must supply real data.
 """
 
-    content = llm.complete(
-        "You write clear, structured technical report sections for engineering audiences.",
-        user,
+    system = (
+        "You write clear, structured technical report sections for engineering audiences."
     )
+    if section_id in CITED_SECTIONS:
+        system += (
+            " When reference markdown is provided, mark every direct quote with the "
+            "**[CITATION]** block format exactly as specified."
+        )
+
+    content = llm.complete(system, user)
     write_section(section_id, content)
     return content

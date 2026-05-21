@@ -1,5 +1,6 @@
 expert_review:
   - "Flag vague claims; require measurable metrics or citations where applicable."
+  - "In principles and literature_review, direct quotes must use **[CITATION]** blocks with paper name and Original text."
   - "Ensure each section states its scope and does not duplicate other sections."
   - "Prefer precise technical terminology over marketing language."
   - "Highlight missing experimental details (hardware, batch size, baseline)."

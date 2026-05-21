@@ -4,7 +4,7 @@ from typing import Any
 
 import yaml
 
-from trg.paths import PROJECT_FILE, RULES_FILE
+from trg.paths import PROJECT_FILE, REFERENCE_SEARCH_FILE, RULES_FILE
 
 
 def _load_yaml(path) -> dict[str, Any]:
@@ -30,3 +30,7 @@ def project_facts(project: dict[str, Any] | None = None) -> list[str]:
     proj = project or load_project()
     facts = proj.get("facts") or []
     return [str(f).strip() for f in facts if str(f).strip()]
+
+
+def load_reference_search() -> dict[str, Any]:
+    return _load_yaml(REFERENCE_SEARCH_FILE)

@@ -63,6 +63,15 @@ def cmd_questions(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_search_refs(args: argparse.Namespace) -> int:
+    from trg.reference_search import run_search_refs
+
+    path = run_search_refs()
+    print(f"References saved -> {path}")
+    print("Next: download PDFs from DOIs, convert to Markdown under sources/papers/")
+    return 0
+
+
 def cmd_report(args: argparse.Namespace) -> int:
     ensure_output_dirs()
     report = assemble_report()
@@ -106,6 +115,12 @@ def main(argv: list[str] | None = None) -> int:
     p_q = sub.add_parser("questions", help="Generate a long expert question list")
     p_q.add_argument("--min", type=int, default=40, help="Minimum number of questions")
     p_q.set_defaults(func=cmd_questions)
+
+    p_ref = sub.add_parser(
+        "search-refs",
+        help="Search Crossref and save title/topic/DOI to output/references.xlsx",
+    )
+    p_ref.set_defaults(func=cmd_search_refs)
 
     p_rep = sub.add_parser("report", help="Assemble sections into output/report.md")
     p_rep.set_defaults(func=cmd_report)
