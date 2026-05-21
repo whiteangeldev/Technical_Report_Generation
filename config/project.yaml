@@ -1,0 +1,10 @@
+title: "Application and Testing of KV Cache in LLMs"
+topic: "KV cache optimization for large language model inference"
+audience: "Technical readers familiar with LLMs"
+language: "en"
+
+# Ground-truth facts the report must stay aligned with (edit for your project).
+facts:
+  - "The report evaluates KV cache techniques for transformer-based LLMs."
+  - "Experiments compare latency and memory usage under controlled batch sizes."
+  - "All benchmark numbers must cite the dataset and hardware used in experimental_setup."

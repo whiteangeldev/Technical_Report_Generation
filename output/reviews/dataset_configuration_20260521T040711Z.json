@@ -1,0 +1,16 @@
+{
+  "score": 6,
+  "issues": [
+    "Evaluation Protocol subsection duplicates hardware, batch-size, and measurement details already covered in the Experimental Setup section, violating section scope.",
+    "Section lacks an explicit scope statement and mixes dataset configuration with procedural evaluation details.",
+    "Preprocessing description is slightly vague on truncation mechanics and does not reference the fixed context length policy defined elsewhere.",
+    "Batch-size enumeration and A100-specific memory recording belong in Experimental Setup rather than Dataset Configuration."
+  ],
+  "suggestions": [
+    "Remove or relocate the Evaluation Protocol subsection; retain only dataset-specific elements.",
+    "Add a brief scope paragraph at the start of the section.",
+    "Ensure all hardware, batch, and metric-collection statements are cross-referenced to Experimental Setup.",
+    "Use precise language for tokenization and truncation steps without introducing new experimental parameters."
+  ],
+  "corrected_markdown": "# Dataset Configuration\n\nThis section specifies the datasets, data splits, and preprocessing steps used for all latency, memory, and quality measurements reported in the Results Analysis section. Hardware platform, batch-size sweep, and metric-collection procedures are defined in the Experimental Setup section and are not repeated here.\n\n## Primary Evaluation Dataset\nAll latency and memory measurements were performed on the LongBench benchmark (Bai et al., 2023). The “narrativeqa” and “qasper” subsets were selected because they contain long-document question-answering tasks whose average context lengths exceed 4 000 tokens. Experiments used the official test splits of both subsets.\n\n## Auxiliary Dataset for Quality Verification\nPerplexity checks after eviction and quantization were conducted on the WikiText-103 validation set. This corpus supplies a standardized, open-domain language-modeling signal independent of the long-context QA tasks.\n\n## Data Splits and Preprocessing\n- **LongBench subsets**: The first 200 examples from each official test split were retained. Prompts were truncated or padded to a fixed context length of 4 096 tokens using the same procedure described in the Experimental Setup section; any remaining generation budget was used for answer decoding.\n- **WikiText-103**: The standard validation partition was tokenized with the LLaMA-2 tokenizer and segmented into non-overlapping sequences of 4 096 tokens for perplexity computation.\n- **Tokenization and formatting**: All inputs were processed with the identical Hugging Face tokenizer employed by the LLaMA-2-7B and LLaMA-2-13B checkpoints. No additional cleaning, lower-casing, or special prompt templates beyond those supplied by the benchmark authors were applied."
+}

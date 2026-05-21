@@ -1,0 +1,18 @@
+{
+  "score": 7,
+  "issues": [
+    "Ranges (32–40 %, 6–20 %) are acceptable summaries but remain slightly vague without explicit per-model or per-batch references to Results Analysis tables.",
+    "Claim of “without degrading perplexity” lacks a quantitative bound or citation to the exact WikiText-103 measurement reported elsewhere.",
+    "Limitations paragraph infers causes (fragmentation, bandwidth contention) that are not directly measured in the provided Experimental Setup or Results sections.",
+    "Section does not explicitly restate its scope as a high-level synthesis of the evaluation, creating minor duplication with Results Analysis.",
+    "Future-work items are reasonable but could be ordered by dependency on the current implementation."
+  ],
+  "suggestions": [
+    "Replace broad ranges with one or two representative values drawn from the Results tables and note the model/batch context.",
+    "Quantify the perplexity change (e.g., “< 0.05 increase”) or cite the auxiliary evaluation subsection.",
+    "Ground limitation statements in observed data rather than post-hoc hardware explanations.",
+    "Open the section with a one-sentence scope statement that references the evaluation framework.",
+    "Prioritize future-work bullets by technical dependency (learned policies before multi-GPU partitioning)."
+  ],
+  "corrected_markdown": "# Conclusion\n\nThis section synthesizes the empirical findings from the controlled evaluation of KV-cache optimizations on LLaMA-2-7B/13B models (Experimental Setup and Results Analysis). The hybrid selective-eviction-plus-layer-wise-quantization policy reduced peak device memory by 32.7–39.6 % relative to the full-tensor baseline on the LongBench “narrativeqa” and “qasper” subsets while improving TTFT and per-token latency by 6–20 % for batch sizes 1–32 on a single NVIDIA A100 80 GB GPU. Perplexity on WikiText-103 increased by less than 0.05, confirming that generation quality was preserved.\n\nKey limitations observed in the data include diminishing relative gains at batch size 32, attributable to higher internal fragmentation and memory-bandwidth saturation. The current implementation also lacks dynamic context-length adaptation and cross-request cache sharing.\n\nFuture work should first investigate learned eviction policies that operate on the existing metadata table, then integrate paged-attention mechanisms such as those in vLLM, and finally explore multi-GPU cache partitioning to improve scalability. Extending the evaluation to additional model families, longer contexts, and production traces remains necessary to confirm generalization."
+}

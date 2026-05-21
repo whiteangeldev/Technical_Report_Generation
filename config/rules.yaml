@@ -1,0 +1,13 @@
+expert_review:
+  - "Flag vague claims; require measurable metrics or citations where applicable."
+  - "Ensure each section states its scope and does not duplicate other sections."
+  - "Prefer precise technical terminology over marketing language."
+  - "Highlight missing experimental details (hardware, batch size, baseline)."
+  - "Check logical flow: problem → approach → implementation → evaluation → conclusion."
+
+fact_alignment:
+  - "Every numeric result must appear in results_analysis and match experimental_setup."
+  - "Technology names and versions must be consistent across sections."
+  - "Dataset names in dataset_configuration must match those in results_analysis."
+  - "Claims in conclusion must be supported by results_analysis."
+  - "No contradictions between problem_analysis and new_technology claims."

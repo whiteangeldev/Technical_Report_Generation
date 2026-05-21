@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "technical-report-generation"
+version = "0.1.0"
+description = "Cursor-based LLM automated technical report generation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "openai>=1.40.0",
+  "python-dotenv>=1.0.0",
+  "PyYAML>=6.0.0",
+]
+
+[project.scripts]
+trg = "trg.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

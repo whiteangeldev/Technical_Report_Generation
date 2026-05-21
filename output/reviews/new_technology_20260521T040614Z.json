@@ -1,0 +1,18 @@
+{
+  "score": 3,
+  "issues": [
+    "Vague claims lacking measurable metrics, citations, or quantitative targets",
+    "Duplicates content already present in Literature Review, Principles, and Implementation sections",
+    "Second paragraph describes experimental reporting scope that belongs in Experimental Setup or Results Analysis",
+    "Does not explicitly state section scope or purpose",
+    "Uses imprecise phrasing ('high-utility', 'lower-salience') without technical definitions"
+  ],
+  "suggestions": [
+    "State scope in the opening sentence and limit content to novel technical integration details",
+    "Replace marketing-style language with precise terminology and reference specific policies (H2O, StreamingLLM)",
+    "Remove measurement paragraph entirely",
+    "Add brief, non-duplicative description of how eviction and quantization interact",
+    "Ensure logical flow by pointing forward to Implementation and Results without repeating them"
+  ],
+  "corrected_markdown": "# New Technology\n\nThis section outlines the hybrid KV-cache optimization whose performance is measured in the Results Analysis section.\n\nThe technique integrates H2O-style heavy-hitter eviction with a sliding-window streaming policy to discard low-attention-score entries, followed by per-layer 4-bit or 8-bit quantization applied only to the retained tensors of lower-importance layers. Importance scores are maintained in a lightweight metadata table and updated after each decoding step, enabling eviction decisions without host synchronization. The combined policy avoids both full-tensor retention and operating-system-level paging while preserving the original attention computation for kept entries."
+}
